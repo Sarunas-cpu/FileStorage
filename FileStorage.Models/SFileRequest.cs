@@ -6,6 +6,7 @@ namespace FileStorage.Models
 {
     public class SFileRequest
     {
+        public int Id { get; set; }
         public int? ParentId { get; set; }
         public int? RootId { get; set; }
         public string Name { get; set; }

@@ -83,6 +83,7 @@ namespace FileStorage.Logic
             var Sfiles = _context.SFiles.Where(file => file.Name.Contains(name) && file.RootId == _rootFolderId)
                                         .Select(file => new SFileRequest()
                                                                             {
+                                                                                Id = file.Id,
                                                                                 ParentId = file.ParentId,
                                                                                 RootId = file.RootId,
                                                                                 Name = file.Name,
