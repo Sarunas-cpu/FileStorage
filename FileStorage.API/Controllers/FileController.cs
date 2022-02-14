@@ -64,7 +64,7 @@ namespace FileStorage.API.Controllers
 
                 // read zip file if it was created else read file
                 var provider = new FileExtensionContentTypeProvider();
-                if (provider.TryGetContentType(filePath, out var contentType) && tempDirectory.Length == 0)
+                if (tempDirectory.Length == 0 && provider.TryGetContentType(filePath, out var contentType))
                 {
                     fileContentType = contentType;
                     fileBytes = await System.IO.File.ReadAllBytesAsync(filePath);

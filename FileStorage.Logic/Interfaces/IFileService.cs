@@ -10,6 +10,6 @@ namespace FileStorage.Logic.Interfaces
     public interface IFileService
     {
         string CreateFileOrFolder([FromBody] SFileDto sfile);
-        List<SFile> FindByName(string name);
+        List<SFileRequest> FindByName(string name);
     }
 }

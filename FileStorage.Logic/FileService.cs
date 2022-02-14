@@ -78,9 +78,31 @@ namespace FileStorage.Logic
             return sFileDto.FileContents.Equals(string.Empty) ? "Directory have been created" : "File have been created";
         }
 
-        List<SFile> IFileService.FindByName(string name)
+        List<SFileRequest> IFileService.FindByName(string name)
         {
-            return _context.SFiles.Where(file => file.Name.Contains(name) && file.RootId == _rootFolderId).ToList();
+            var Sfiles = _context.SFiles.Where(file => file.Name.Contains(name) && file.RootId == _rootFolderId)
+                                        .Select(file => new SFileRequest()
+                                                                            {
+                                                                                ParentId = file.ParentId,
+                                                                                RootId = file.RootId,
+                                                                                Name = file.Name,
+                                                                                Path = file.Path,
+                                                                                CreatedOn = file.CreatedOn,
+                                                                                CreatedBy = file.CreatedBy,
+                                                                                IsDeleted = file.IsDeleted
+                                                                            }
+                                        ).ToList();
+
+            foreach(var sfile in Sfiles)
+            {
+                if (Path.HasExtension(sfile.Path))
+                {
+                    byte[] bytes = File.ReadAllBytes(sfile.Path);
+                    sfile.FileContents = Convert.ToBase64String(bytes);
+                }
+            }
+
+            return Sfiles;
         }
     }
 }
